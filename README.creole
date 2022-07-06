@@ -1,0 +1,3 @@
+= spreadspace clock
+
+simple clock intended as key/fill source for chroma-keyers

@@ -1,0 +1,8 @@
+{
+    "name": "spreadspace clock",
+    "author": "equinox@spreadspace.org",
+    "desc": "simple clock intended as key/fill source for chroma-keyers.",
+    "repository": "https://github.com/spreadspace/info-beamer-clock",
+    "platforms": ["pi/v6", "pi/v7", "pi/v8"],
+    "version": "trunk"
+}
