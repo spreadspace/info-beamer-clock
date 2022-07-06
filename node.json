@@ -1,4 +1,18 @@
 {
-    "name": "spreadspace motion test",
-    "options": []
+    "name": "spreadspace clock",
+    "options": [{
+        "title": "Clock",
+        "type": "section"
+    }, {
+        "title": "Time Zone",
+        "ui_width": 4,
+        "name": "timezone",
+        "type": "select",
+        "hint": "The timezone",
+        "options": [
+            ["UTC", "UTC"],
+            ["Europe/Vienna", "Europa / Wien"]
+        ],
+        "default": "Europe/Vienna"
+    }]
 }

@@ -1,0 +1,52 @@
+#!/usr/bin/python
+from hosted import CONFIG
+from hosted import NODE
+
+from calendar import timegm
+from datetime import datetime
+import pytz
+
+import sys
+import time
+
+
+CONFIG.restart_on_update()
+
+
+def log(msg):
+    print >>sys.stderr, "[service]   %s" % msg
+
+
+def __get_now_in_config_tz(now):
+    now = now.replace(tzinfo=pytz.utc)
+    return now.astimezone(pytz.timezone(CONFIG['timezone']))
+
+
+def current_time():
+    now = datetime.utcnow().replace(tzinfo=pytz.utc)
+    timestamp = timegm(now.timetuple()) + now.microsecond / 1000000.
+    return now, timestamp
+
+
+def send_clock(now, ts):
+    now = __get_now_in_config_tz(now)
+    NODE.send('/clock/set:%f,%d,%d,%d' % (ts, now.hour,  now.minute, now.second))
+
+
+def main():
+    while 1:
+        now, ts = current_time()
+        if now.year < 2000:
+            # Guard against NTP time not beeing synchronized yet.
+            # On the pi the year will be 1970 in that case.
+            log("too soon! ... waiting a little for NTP to sync the clock (current time: %s / %s)" % (now, ts))
+            time.sleep(1)
+            continue
+
+        log("current time: %s / %s" % (now, ts))
+        send_clock(now, ts)
+        time.sleep(10)
+
+
+if __name__ == "__main__":
+    main()
